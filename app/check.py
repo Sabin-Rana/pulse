@@ -19,4 +19,4 @@ def check_url(url: str) -> dict:
 
 
 if __name__ == "__main__":
-    print(check_url("http://localhost:8000/healthz"))
+    print(check_url("https://www.google.com"))
