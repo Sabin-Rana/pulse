@@ -10,13 +10,22 @@ def check_url(url: str) -> dict:
         return {
             "url": url,
             "ok": response.status_code == 200,
-            "status": response.status_code,
+            "status_code": response.status_code,
             "latency_ms": latency_ms,
         }
     except httpx.RequestError as exc:
         latency_ms = round((time.perf_counter() - start) * 1000, 1)
-        return {"url": url, "ok": False, "error": str(exc), "latency_ms": latency_ms}
+        return {
+            "url": url,
+            "ok": False,
+            "status_code": None,
+            "latency_ms": latency_ms,
+            "error": str(exc),
+        }
 
 
 if __name__ == "__main__":
-    print(check_url("https://www.google.com"))
+    sites = ["https://www.google.com", "https://www.facebook.com", "https://broken.sabinrana.xyz"]
+    for url in sites:
+        result = check_url(url)
+        print(result)
