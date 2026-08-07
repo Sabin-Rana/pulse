@@ -13,7 +13,8 @@ def check(url: str):
 
 @app.get("/checkall")
 def check_all():
-    sites = ["https://www.google.com", "https://www.facebook.com", "https://broken.sabinrana.xyz"]
+    with open("app/sites.txt") as f:
+        sites = f.read().splitlines()
     results = []
     for url in sites:
         results.append(check_url(url))
