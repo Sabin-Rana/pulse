@@ -9,7 +9,7 @@ def check_url(url: str) -> dict:
         latency_ms = round((time.perf_counter() - start) * 1000, 1)
         return {
             "url": url,
-            "ok": response.status_code == 200,
+            "ok": response.status_code < 400,
             "status_code": response.status_code,
             "latency_ms": latency_ms,
         }
