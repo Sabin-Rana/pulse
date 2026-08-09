@@ -17,5 +17,8 @@ def check_all():
         sites = f.read().splitlines()
     results = []
     for url in sites:
-        results.append(check_url(url))
+        result = check_url(url)
+        with open("app/history.txt", "a") as f:
+            f.write(str(result) + "\n")
+        results.append(result)
     return results
