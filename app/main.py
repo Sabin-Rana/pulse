@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from app.check import check_url
+from datetime import datetime
 
 app = FastAPI()
 
@@ -18,7 +19,8 @@ def check_all():
     results = []
     for url in sites:
         result = check_url(url)
+        now = datetime.now()
         with open("app/history.txt", "a") as f:
-            f.write(str(result) + "\n")
+            f.write(str(now) + " " + str(result) + "\n")
         results.append(result)
     return results
