@@ -21,6 +21,6 @@ def check_all():
         result = check_url(url)
         now = datetime.now()
         with open("app/history.txt", "a") as f:
-            f.write(str(now) + " " + str(result) + "\n")
+            f.write(now.strftime("%Y-%m-%d %H:%M:%S") + " " + str(result) + "\n")
         results.append(result)
     return results
