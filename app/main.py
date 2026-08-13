@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from app.check import check_url
 from datetime import datetime
+import json
 
 app = FastAPI()
 
@@ -21,6 +22,6 @@ def check_all():
         result = check_url(url)
         now = datetime.now()
         with open("app/history.txt", "a") as f:
-            f.write(now.strftime("%Y-%m-%d %H:%M:%S") + " " + str(result) + "\n")
+            f.write(now.strftime("%Y-%m-%d %H:%M:%S") + " " + json.dumps(result) + "\n")
         results.append(result)
     return results
