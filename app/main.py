@@ -21,7 +21,8 @@ def check_all():
     for url in sites:
         result = check_url(url)
         now = datetime.now()
+        result["time"] = now.strftime("%Y-%m-%d %H:%M:%S")
         with open("app/history.txt", "a") as f:
-            f.write(now.strftime("%Y-%m-%d %H:%M:%S") + " " + json.dumps(result) + "\n")
+            f.write(json.dumps(result) + "\n") 
         results.append(result)
     return results
