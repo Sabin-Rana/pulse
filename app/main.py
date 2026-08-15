@@ -26,3 +26,13 @@ def check_all():
             f.write(json.dumps(result) + "\n") 
         results.append(result)
     return results
+
+@app.get("/history")
+def history():
+    with open("app/history.txt") as f:
+        lines = f.read().splitlines()
+    results = []
+    for line in lines:
+        result = json.loads(line)
+        results.append(result)
+    return results
