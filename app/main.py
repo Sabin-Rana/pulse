@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from app.check import check_url
 from datetime import datetime
 import json
+from fastapi.responses import HTMLResponse
 
 app = FastAPI()
 
@@ -27,12 +28,23 @@ def check_all():
         results.append(result)
     return results
 
-@app.get("/history")
+@app.get("/history", response_class=HTMLResponse)
 def history():
     with open("app/history.txt") as f:
         lines = f.read().splitlines()
-    results = []
+    
+    html = "<h1>Pulse History</h1>"
+    html = html + "<table border='1'>"
+    html = html + "<tr><td>URL</td><td>OK</td><td>Status</td><td>Time</td></tr>"
+    
     for line in lines:
         result = json.loads(line)
-        results.append(result)
-    return results
+        html = html + "<tr>"
+        html = html + "<td>" + str(result["url"]) + "</td>"
+        html = html + "<td>" + str(result["ok"]) + "</td>"
+        html = html + "<td>" + str(result["status_code"]) + "</td>"
+        html = html + "<td>" + str(result["time"]) + "</td>"
+        html = html + "</tr>"
+    
+    html = html + "</table>"
+    return html
