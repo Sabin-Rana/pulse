@@ -31,15 +31,19 @@ def check_all():
 @app.get("/history", response_class=HTMLResponse)
 def history():
     with open("app/history.txt") as f:
-        lines = f.read().splitlines()
-    
-    html = "<h1>Pulse History</h1>"
-    html = html + "<table border='1'>"
-    html = html + "<tr><td>URL</td><td>OK</td><td>Status</td><td>Time</td></tr>"
+        lines = f.read().splitlines()    
+    html = "<style>body { font-family: Arial, sans-serif; padding: 20px; } table { border-collapse: collapse; } td { border: 1px solid #ccc; padding: 8px; } th { border: 1px solid #ccc; padding: 8px; background: #f0f0f0; }</style>"
+    html = html + "<h1>Pulse History</h1>"
+    html = html + "<table>"
+    html = html + "<tr><th>URL</th><th>OK</th><th>Status</th><th>Time</th></tr>"
     
     for line in lines:
         result = json.loads(line)
-        html = html + "<tr>"
+        if result["ok"] == True:
+            color = "#d4f7d4"
+        else:
+            color = "#f7d4d4"
+        html = html + "<tr style='background:" + color + "'>"
         html = html + "<td>" + str(result["url"]) + "</td>"
         html = html + "<td>" + str(result["ok"]) + "</td>"
         html = html + "<td>" + str(result["status_code"]) + "</td>"
