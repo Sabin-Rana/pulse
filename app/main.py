@@ -3,6 +3,7 @@ from app.check import check_url
 from datetime import datetime
 import json
 from fastapi.responses import HTMLResponse
+from apscheduler.schedulers.background import BackgroundScheduler
 
 app = FastAPI()
 
@@ -14,8 +15,7 @@ def healthz():
 def check(url: str):
     return check_url(url)
 
-@app.get("/checkall")
-def check_all():
+def run_checks():
     with open("app/sites.txt") as f:
         sites = f.read().splitlines()
     results = []
@@ -27,6 +27,10 @@ def check_all():
             f.write(json.dumps(result) + "\n") 
         results.append(result)
     return results
+
+@app.get("/checkall")
+def check_all():
+    return run_checks()
 
 @app.get("/history", response_class=HTMLResponse)
 def history():
@@ -52,3 +56,7 @@ def history():
     
     html = html + "</table>"
     return html
+
+scheduler = BackgroundScheduler()
+scheduler.add_job(run_checks, "interval", seconds=60)
+scheduler.start()
