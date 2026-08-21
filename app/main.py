@@ -34,8 +34,11 @@ def check_all():
 
 @app.get("/history", response_class=HTMLResponse)
 def history():
-    with open("app/history.txt") as f:
-        lines = f.read().splitlines()    
+    try:
+        with open("app/history.txt") as f:
+            lines = f.read().splitlines()
+    except FileNotFoundError:
+        lines = []    
     html = "<style>body { font-family: Arial, sans-serif; padding: 20px; } table { border-collapse: collapse; } td { border: 1px solid #ccc; padding: 8px; } th { border: 1px solid #ccc; padding: 8px; background: #f0f0f0; }</style>"
     html = html + "<h1>Pulse History</h1>"
     html = html + "<table>"
